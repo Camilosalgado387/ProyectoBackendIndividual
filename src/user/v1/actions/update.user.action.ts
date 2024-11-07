@@ -2,6 +2,9 @@ import { UserModel } from "../models/user.model";
 import { UserType } from "../models/user.model";
 
 export const updateUserAction = async (userId: string, updateData: Partial<UserType>): Promise<UserType | null> => {
-  const updatedUser = await UserModel.findByIdAndUpdate(userId, updateData, { new: true });
+  // Excluir los campos de permisos para evitar que se actualicen
+  const { canCreate, canDelete, canEdit, ...filteredData } = updateData;
+
+  const updatedUser = await UserModel.findByIdAndUpdate(userId, filteredData, { new: true });
   return updatedUser;
 };

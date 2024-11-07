@@ -1,9 +1,10 @@
 import { Router, Request, Response } from 'express';
 import { createUser, readUsers } from '../Controllers/user.controller';
 import { CreateUserType } from '../user.types';
-import { authenticateToken, checkPermissions, AuthenticatedRequest, checkEditPermissions } from '../../../middleware/auth';
+import { authenticateToken, checkPermissions, AuthenticatedRequest, checkEditPermissions, checkDisablePermissions } from '../../../middleware/auth';
 import { loginUser } from '../actions/read.user.action';
 import { updateUser} from '../Controllers/user.controller';
+import { disableUser } from '../Controllers/user.controller';
 const userRoutes = Router();
 
 async function GetUsers(request: Request, response: Response) {
@@ -40,12 +41,29 @@ async function UpdateUser(request: AuthenticatedRequest, response: Response) {
   }
 }
 
+async function DisableUser(request: AuthenticatedRequest, response: Response) {
+  const targetUserId = request.params.userId;
 
-// Ruta de Login
-userRoutes.get('/login', loginUser);
+  try {
+    const disabledUser = await disableUser(targetUserId);
+    if (!disabledUser) {
+      return response.status(404).json({ message: 'User not found' });
+    }
+
+    response.status(200).json({ message: 'User disabled successfully', user: disabledUser });
+  } catch (error) {
+    response.status(500).json({ message: 'Failed to disable user', error });
+  }
+}
+
+
+
 
 // Rutas protegidas
-userRoutes.get('/', authenticateToken, GetUsers); //OJO, LEER USERS NO REQUIERE AUTENTICACIÓN
+// userRoutes.get('/', authenticateToken, GetUsers); //OJO, LEER USERS NO REQUIERE AUTENTICACIÓN
+userRoutes.get('/login', loginUser);
 userRoutes.post('/', CreateUser);
-userRoutes.put('/:userId', authenticateToken, checkEditPermissions,UpdateUser);
+userRoutes.put('/:userId',  checkEditPermissions,UpdateUser);
+userRoutes.delete('/:userId',checkDisablePermissions, DisableUser);
+
 export default userRoutes;

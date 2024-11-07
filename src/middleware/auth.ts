@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../user/v1/models/user.model';
 
-const secretKey = process.env.JWT_SECRET || 'your_secret_key';
+const secretKey = process.env.JWT_SECRET || 'your_secret_key0---------------';
 
 
 export interface AuthenticatedRequest extends Request {
@@ -75,6 +75,22 @@ export const checkEditPermissions = (req: AuthenticatedRequest, res: Response, n
   // Si no es su perfil, verificar el permiso `canEdit`
   if (!req.user?.canEdit) {
     return res.status(403).json({ message: 'Forbidden: Insufficient permissions to edit other users' });
+  }
+
+  next();
+};
+export const checkDisablePermissions = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const userId = req.user?.id;
+  const targetUserId = req.params.userId;
+
+  // Permitir que el usuario inhabilite su propio perfil sin permiso adicional
+  if (userId === targetUserId) {
+    return next();
+  }
+
+  // Verificar el permiso `canDelete` para inhabilitar a otros
+  if (!req.user?.canDelete) {
+    return res.status(403).json({ message: 'Forbidden: Insufficient permissions to disable other users' });
   }
 
   next();
