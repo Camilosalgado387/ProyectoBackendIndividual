@@ -4,7 +4,7 @@ import { UserModel } from '../user/v1/models/user.model';
 
 const secretKey = process.env.JWT_SECRET || 'your_secret_key';
 
-// Actualizamos la interfaz `AuthenticatedRequest` para reflejar la nueva estructura de permisos
+
 export interface AuthenticatedRequest extends Request {
   user?: {
     id: string;
@@ -53,11 +53,6 @@ export const checkPermissions = (permissionType: 'canCreate' | 'canDelete' | 'ca
     if (!req.user) {
       return res.status(401).json({ message: 'User not authenticated' });
     }
-
-    // Depuración: Verificar los permisos del usuario
-    console.log('User Permissions:', req.user);
-    console.log(`Checking permission for: ${permissionType}`);
-
     // Verificar si el usuario tiene el permiso específico
     if (!req.user[permissionType]) {
       return res.status(403).json({ message: `Forbidden: Missing ${String(permissionType)} permission` });
@@ -65,4 +60,22 @@ export const checkPermissions = (permissionType: 'canCreate' | 'canDelete' | 'ca
 
     next();
   };
+};
+//Permisos para editar users, si el usuario intenta modificar su propio perfil, se permite sin permiso especial 
+//Si no es su perfil, verificar el permiso `canEdit`
+export const checkEditPermissions = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  const userId = req.user?.id;
+  const targetUserId = req.params.userId;
+
+  // Si el usuario intenta modificar su propio perfil, se permite sin permiso especial
+  if (userId === targetUserId) {
+    return next();
+  }
+
+  // Si no es su perfil, verificar el permiso `canEdit`
+  if (!req.user?.canEdit) {
+    return res.status(403).json({ message: 'Forbidden: Insufficient permissions to edit other users' });
+  }
+
+  next();
 };
