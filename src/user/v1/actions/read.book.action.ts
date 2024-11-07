@@ -1,8 +1,8 @@
-import { bookModel, bookType } from "../models/book.model";
+import { BookModel, BookType } from "../models/book.model";
 
 // DECLARE ACTION FUNCTION
-async function readbookAction(): Promise<bookType[]> {
-  const results = await bookModel.find();
+async function readbookAction(): Promise<BookType[]> {
+  const results = await BookModel.find();
 
   return results;
 }

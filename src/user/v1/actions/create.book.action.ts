@@ -1,12 +1,8 @@
+import { BookModel } from "../models/book.model";
+import { BookType } from "../models/book.model";
 
-import { CreateBookType } from "../book.types";
-import { bookModel, bookType } from "../models/book.model";
-// DECLARE ACTION FUNCTION
-async function createBookAction(bookData: CreateBookType): Promise<bookType> {
-  const results = await bookModel.create(bookData);
-
-  return results;
+export async function createBookAction(bookData: BookType): Promise<BookType> {
+  const book = new BookModel(bookData);
+  await book.save();
+  return book;
 }
-
-// EXPORT ACTION FUNCTION
-export default createBookAction;

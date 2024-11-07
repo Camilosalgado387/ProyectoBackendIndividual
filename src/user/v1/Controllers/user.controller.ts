@@ -1,19 +1,21 @@
 import createUserAction from "../actions/create.user.action";
-import readUserAction from "../actions/read.user.action";
-import { UserType } from "../models/user.model";
+import { loginUser } from "../actions/read.user.action";
+import { UserModel, UserType } from "../models/user.model";
 import { CreateUserType } from "../user.types";
+import { UpdateUserType } from "../user.types";
+import updateUserAction from "../actions/update.user.action";
 
-// DECLARE CONTROLLER FUNCTIONS
-async function readUsers(): Promise<UserType[]> {
-  const users = await readUserAction();
 
+async function readUsers(): Promise<UserType | null > {
+  const users = await UserModel.findOne({ isActive: true }); 
   return users;
 }
+
 async function createUser(userData: CreateUserType): Promise<UserType> {
   const createdUser = await createUserAction(userData);
-
   return createdUser;
 }
 
-// EXPORT CONTROLLER FUNCTIONS
+
+
 export { readUsers, createUser };

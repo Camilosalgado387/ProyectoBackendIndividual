@@ -1,11 +1,14 @@
 import { model, Schema } from "mongoose";
-
+import bcrypt from 'bcrypt';
 // DECLARE MODEL TYPE
 type UserType = {
     name: string
     email: string
     password: string
     isActive: boolean
+    canCreate: boolean
+    canDelete: boolean
+    canEdit: boolean
     reservations: {
         bookName: string
         reservedAt: Date
@@ -31,6 +34,18 @@ const UserSchema = new Schema<UserType>({
         type: Boolean,
         default: true
     },
+    canCreate: {
+        type: Boolean,
+        default: false
+    },
+    canDelete: {
+        type: Boolean,
+        default: false
+    },
+    canEdit: {
+        type: Boolean,
+        default: false
+    },
     reservations: [{
         bookName: {
             type: String,
@@ -51,6 +66,12 @@ const UserSchema = new Schema<UserType>({
     versionKey: false,
 });
 
+UserSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  });
 // DECLARE MONGO MODEL
 const UserModel = model<UserType>("User", UserSchema);
 
