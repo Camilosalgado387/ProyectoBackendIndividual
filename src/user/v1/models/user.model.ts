@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import bcrypt from 'bcrypt';
+import { model, Schema } from "mongoose"
+import bcrypt from 'bcrypt'
 // DECLARE MODEL TYPE
 type UserType = {
     name: string
@@ -7,14 +7,16 @@ type UserType = {
     password: string
     isActive: boolean
     canCreate: boolean
-    canDelete: boolean
-    canEdit: boolean
+    canDeleteUsers: boolean
+    canEditUsers: boolean
+    canDeleteBooks: boolean
+    canEditBooks: boolean
     reservations: {
         bookName: string
         reservedAt: Date
         returnAt: Date
-    }[];
-};
+    }[]
+}
 
 // DECLARE MONGOOSE SCHEMA
 const UserSchema = new Schema<UserType>({
@@ -38,14 +40,23 @@ const UserSchema = new Schema<UserType>({
         type: Boolean,
         default: false
     },
-    canDelete: {
+    canDeleteUsers: {
         type: Boolean,
         default: false
     },
-    canEdit: {
+    canEditUsers: {
         type: Boolean,
         default: false
     },
+    canDeleteBooks: {
+        type: Boolean,
+        default: false
+    },
+    canEditBooks: {
+        type: Boolean,
+        default: false
+    },
+    
     reservations: [{
         bookName: {
             type: String,
@@ -64,16 +75,16 @@ const UserSchema = new Schema<UserType>({
 }, {
     timestamps: true,
     versionKey: false,
-});
-
+})
+// Encriptacion de contraseña
 UserSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  });
+    if (!this.isModified('password')) return next()
+    const salt = await bcrypt.genSalt(10)
+    this.password = await bcrypt.hash(this.password, salt)
+    next()
+  })
 // DECLARE MONGO MODEL
-const UserModel = model<UserType>("User", UserSchema);
+const UserModel = model<UserType>("User", UserSchema)
 
 // EXPORT ALL
-export { UserModel, UserSchema, UserType };
+export { UserModel, UserSchema, UserType }

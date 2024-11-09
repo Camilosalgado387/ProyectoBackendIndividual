@@ -1,12 +1,12 @@
 
-import { CreateUserType } from "../user.types";
-import { UserType, UserModel } from "../models/user.model";
+import { CreateUserType } from "../user.types"
+import { UserType, UserModel } from "../models/user.model"
 // DECLARE ACTION FUNCTION
 async function createUserAction(userData: CreateUserType): Promise<UserType> {
-  const results = await UserModel.create(userData);
+  const results = await UserModel.create(userData)
 
-  return results;
+  return results
 }
 
 // EXPORT ACTION FUNCTION
-export default createUserAction;
+export default createUserAction

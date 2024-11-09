@@ -1,20 +1,20 @@
-import { model, Schema } from "mongoose";
+import { model, Schema } from "mongoose"
 
 // DECLARE MODEL TYPE
 type BookType = {
-    title: string;
-    author: string;
-    genre: string;
-    publisher: boolean; // Esto parece un error; debería ser un string, pero mantendré el nombre original.
-    publishedDate: Date;
-    isAvailable: boolean;
-    isActive: boolean;
+    title: string
+    author: string
+    genre: string
+    publisher: boolean 
+    publishedDate: Date
+    isAvailable: boolean
+    isActive: boolean
     reservations: {
-        userName: string;
-        reservedAt: Date;
-        returnAt: Date;
-    }[];
-};
+        userName: string
+        reservedAt: Date
+        returnAt: Date
+    }[]
+}
 
 // DECLARE MONGOOSE SCHEMA
 const BookSchema = new Schema<BookType>({
@@ -63,10 +63,10 @@ const BookSchema = new Schema<BookType>({
 }, {
     timestamps: true,
     versionKey: false,
-});
+})
 
 // DECLARE MONGO MODEL
-const BookModel = model<BookType>("Book", BookSchema);
+const BookModel = model<BookType>("Book", BookSchema)
 
 // EXPORT ALL
-export { BookModel, BookSchema, BookType };
+export { BookModel, BookSchema, BookType }
