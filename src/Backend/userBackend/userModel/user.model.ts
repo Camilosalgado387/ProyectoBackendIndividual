@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose"
 import bcrypt from 'bcrypt'
 // DECLARE MODEL TYPE
 type UserType = {
+    _id: string
     name: string
     email: string
     password: string

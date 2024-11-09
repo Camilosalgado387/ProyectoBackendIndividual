@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose"
 
 // DECLARE MODEL TYPE
 type BookType = {
+    _id: string
     title: string
     author: string
     genre: string
@@ -18,6 +19,7 @@ type BookType = {
 
 // DECLARE MONGOOSE SCHEMA
 const BookSchema = new Schema<BookType>({
+    
     title: {
         type: String,
         required: true

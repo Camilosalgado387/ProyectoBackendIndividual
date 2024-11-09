@@ -1,16 +1,14 @@
 import { Router, Request, Response } from 'express'
-import { createUser, readUsers } from '../userControllers/user.controller'
+import { createUser} from '../userControllers/user.controller'
 import { CreateUserType } from '../user.types'
 import { authenticateToken, checkPermissions, AuthenticatedRequest, checkEditPermissions, checkDisablePermissions } from '../../../middleware/auth'
-import { loginUser } from '../userActions/read.user.action'
+import { loginUser } from '../userControllers/user.controller'
 import { updateUser} from '../userControllers/user.controller'
 import { disableUser } from '../userControllers/user.controller'
 const userRoutes = Router()
 
-async function GetUsers(request: Request, response: Response) {
-  const users = await readUsers()
-  response.status(200).json({ message: 'Success.', users })
-}
+
+
 
 async function CreateUser(request: Request, response: Response) {
   if (!request.body.name) {
@@ -60,7 +58,6 @@ async function DisableUser(request: AuthenticatedRequest, response: Response) {
 
 
 // Rutas protegidas
-// userRoutes.get('/', authenticateToken, GetUsers) //OJO, LEER USERS NO REQUIERE AUTENTICACIÓN
 userRoutes.get('/login', loginUser)//login 
 userRoutes.post('/', CreateUser)//create user
 userRoutes.put('/:userId',  authenticateToken, checkEditPermissions,UpdateUser)//update user
