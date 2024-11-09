@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-import { UserModel } from '../user/v1/models/user.model'
+import { UserModel } from '../Backend/userBackend/userModel/user.model'
 
 const secretKey = process.env.JWT_SECRET
 if (!secretKey) {

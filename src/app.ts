@@ -1,5 +1,5 @@
-import userRoutes from "./user/v1/routes/user.routes"
-import bookRoutes from "./user/v1/routes/book.routes"
+import userRoutes from "./Backend/userBackend/userRoute/user.routes"
+import bookRoutes from "./Backend/BookBackend/bookRoute/book.routes"
 import express from "express"
 import { Request, Response } from "express"
 import cors from "cors"

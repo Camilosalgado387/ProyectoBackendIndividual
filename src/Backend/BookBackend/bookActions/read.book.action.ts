@@ -1,4 +1,4 @@
-import { BookModel, BookType } from "../models/book.model"
+import { BookModel, BookType } from "../bookModel/book.model"
 
 // Función para obtener un libro por ID
 export const getBookById = async (bookId: string): Promise<BookType | null> => {

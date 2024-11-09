@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express'
-import { createBook } from '../Controllers/book.controllers'
+import { createBook } from '../bookController/book.controllers'
 import { authenticateToken, checkPermissions, checkBookEditPermissions, checkBookDeletePermissions} from '../../../middleware/auth'
-import { readBook, readBooks } from '../Controllers/book.controllers'
-import { updateBook } from '../Controllers/book.controllers'
-import { disableBook } from '../Controllers/book.controllers'
+import { readBook, readBooks } from '../bookController/book.controllers'
+import { updateBook } from '../bookController/book.controllers'
+import { disableBook } from '../bookController/book.controllers'
 const bookRoutes = Router()
 
 async function CreateBook(request: Request, response: Response) {
@@ -79,7 +79,7 @@ bookRoutes.post('/', authenticateToken, checkPermissions('canCreate'), async (re
   }
 })
 bookRoutes.get('/:bookId?', GetBooks) // Búsqueda de un libro específico o con filtros
-bookRoutes.put('/update/:bookId', authenticateToken, checkBookEditPermissions, UpdateBook)
-bookRoutes.put('/disable/:bookId', authenticateToken, checkBookDeletePermissions, DisableBook)
+bookRoutes.put('/update/:bookId', authenticateToken, checkBookEditPermissions, UpdateBook)//update books
+bookRoutes.put('/disable/:bookId', authenticateToken, checkBookDeletePermissions, DisableBook)//disable books
 
 export default bookRoutes

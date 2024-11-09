@@ -1,5 +1,5 @@
-import { UserModel } from "../models/user.model"
-import { UserType } from "../models/user.model"
+import { UserModel } from "../userModel/user.model"
+import { UserType } from "../userModel/user.model"
 
 export const updateUserAction = async (userId: string, updateData: Partial<UserType>): Promise<UserType | null> => {
   // Excluir los campos de permisos para evitar que se actualicen

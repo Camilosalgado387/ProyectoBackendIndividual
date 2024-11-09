@@ -1,9 +1,9 @@
-import createUserAction from "../actions/create.user.action"
-import { loginUser } from "../actions/read.user.action"
-import { UserModel, UserType } from "../models/user.model"
+import createUserAction from "../userActions/create.user.action"
+import { loginUser } from "../userActions/read.user.action"
+import { UserModel, UserType } from "../userModel/user.model"
 import { CreateUserType } from "../user.types"
-import { updateUserAction } from "../actions/update.user.action"
-import { disableUserAction } from "../actions/delete.user.action"
+import { updateUserAction } from "../userActions/update.user.action"
+import { disableUserAction } from "../userActions/delete.user.action"
 async function readUsers(): Promise<UserType | null > {
   const users = await UserModel.findOne({ isActive: true }) 
   return users

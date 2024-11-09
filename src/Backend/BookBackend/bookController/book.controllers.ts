@@ -1,8 +1,8 @@
-import { createBookAction } from "../actions/create.book.action"
-import { BookType } from "../models/book.model"
-import { getBookById, getBooksWithFilters } from "../actions/read.book.action"
-import { updateBookAction } from "../actions/update.book.action"
-import { disableBookAction } from "../actions/delete.book.action"
+import { createBookAction } from "../bookActions/create.book.action"
+import { BookType } from "../bookModel/book.model"
+import { getBookById, getBooksWithFilters } from "../bookActions/read.book.action"
+import { updateBookAction } from "../bookActions/update.book.action"
+import { disableBookAction } from "../bookActions/delete.book.action"
 
 
 export async function createBook(bookData: BookType): Promise<BookType> {
