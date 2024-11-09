@@ -1,5 +1,6 @@
 import userRoutes from "./Backend/userBackend/userRoute/user.routes"
 import bookRoutes from "./Backend/BookBackend/bookRoute/book.routes"
+import reservationRoutes from "./Backend/reservationBackend/reservationRoute/reservation.route"
 import express from "express"
 import { Request, Response } from "express"
 import cors from "cors"
@@ -23,6 +24,7 @@ export default function createApp() {
   
   app.use(SERVER_VERSION + "users", userRoutes)
   app.use(SERVER_VERSION + "books", bookRoutes)
+  app.use(SERVER_VERSION + "reservations", reservationRoutes)
   app.use(routeNotFound)
   return app
 }
